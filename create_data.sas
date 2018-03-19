@@ -1,8 +1,8 @@
 /* CODY, R. and R. Pass SAS programming by example */
-LIBNAME SASEXMPL "/folders/myfolders/sasuser.v94/sas_by_example"; 
+LIBNAME sasexmpl "/folders/myfolders/"; 
 
 /* Create the SAS data set CLINICAL */
-DATA SASEXMPL.CLINICAL;
+DATA sasexmpl.CLINICAL;
 	LENGTH DRUGGRP ROUTINE $ 1;
 	INFORMAT DATE MMDDYY8.;
 	INPUT PATNUM DATE DRUGGRP CHOL SBP DBP HR ROUTINE;
