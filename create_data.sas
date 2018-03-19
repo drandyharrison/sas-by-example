@@ -1,5 +1,5 @@
 /* CODY, R. and R. Pass SAS programming by example */
-LIBNAME sasexmpl "/folders/myfolders/"; 
+LIBNAME sasexmpl "/folders/myfolders/sasuser.v94/sasexmpl/"; 
 
 /* Create the SAS data set CLINICAL */
 DATA sasexmpl.CLINICAL;
