@@ -1,8 +1,8 @@
-/* CODY, R. and R. Pass SAS programming by example */)
+/* CODY, R. and R. Pass SAS programming by example */
 /* creating a simple report */
 /* CCTV camera locations Published by Durham County Council (data.gov.uk). */
 /* Licensed under  [Open Government Licence] Open Government Licence. */
-filename cctv "/folders/myfolders/sasuser.v94/sas_by_example/CCTV_cameras.csv";
+filename cctv "/folders/myfolders/sasuser.v94/sas-by-example/CCTV_cameras.csv";
 
 data cctv_loc;
 	infile cctv dlm="," dsd obs=2;		/* only read the first 2 observations to check */
@@ -32,4 +32,11 @@ run;
 proc print data=mob_cctv noobs;
 	id name;													/* make name the observation ID */
 	title "CCTV locations in County Durham - mobile cameras";
+run;
+
+/* examples from the book */
+LIBNAME sasexmpl "/folders/myfolders/sasuser.v94/sasexmpl/"; 
+
+proc print data=sasexmpl.medical;
+	title "Medical data";
 run;
