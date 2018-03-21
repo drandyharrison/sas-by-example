@@ -35,8 +35,62 @@ proc print data=mob_cctv noobs;
 run;
 
 /* examples from the book */
-LIBNAME sasexmpl "/folders/myfolders/sasuser.v94/sasexmpl/"; 
+LIBNAME sasexmpl "/folders/myfolders/sasuser.v94/sasexmpl/";
 
-proc print data=sasexmpl.medical;
-	title "Medical data";
+/* sort data ready for calculating sub-totals */
+proc sort data=sasexmpl.medical out=medical;
+	by diagcode;
 run;
+
+/* calculate create date for inclusion in footnote */
+%let date = %sysfunc(today(), date11.);
+
+proc print data=medical label;
+	id sub_id;
+	var hospcode admit_dt disch_dt los cost;			/* controls order variables appear in report */
+	by diagcode;										/* sub-totals for each value of diagnostic code */
+	sum los cost;										/* sum the los and cost variables */
+	title "Medical database report";
+	title2 "------------------------------------";
+	footnote "Prepared by Andy Harrison [(c) &date.]";	/* add today's date into footnote */
+	label	diagcode = "Diagnostic code"
+			admit_dt = "Admission date"
+			disch_dt = "Discharge date"
+			hospcode = "Hospital code"
+			los      = "Length of stay"
+			cost     = "Cost of treatment";
+	format	cost dollar10.2
+			sub_id ssn11.
+			admit_dt disch_dt date9.;
+run;
+
+data donor;
+	input	f_name $		/* forename */
+			l_name $		/* surname */
+			amount COMMA4.	/* donation amount */
+			date DDMMYY8.;	/* donation date */
+	label	f_name = "Forename" 
+			l_name = "Surname"
+			amount = "Amount"
+			date = "Donation date";
+	format	amount dollar7.2
+			date DATE11.;
+	l_name = UPCASE(l_name);
+datalines;
+Janet Bloom $50 14/01/94
+Dora Chelsea $35 14/06/94
+Walter Donnelly $35 07/01/95
+Walter Donnelly $10 06/07/94
+Anne Farnham $100 07/07/93
+James Zoll $45 06/07/94
+;
+
+title "Donation data";
+title2 "----------------------";
+footnote;
+
+proc print data=donor noobs label;
+	var l_name f_name date amount;
+	sum amount;
+run;
+	
