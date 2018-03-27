@@ -48,11 +48,25 @@ proc plot data=clin_2;
 	plot dbp *sbp;
 run;
 
+/* simple scatter plot with proc sgplot */
+/* Note: the SAS/GRAPH procedures are not available in SAS University Edition since it is only Base SAS */
+/*		 so proc gplot is not available but proc sgplot is */
+proc sgplot data=clin_2;
+	scatter x=dbp y=sbp / group=DRUGGRP;
+run;
+
 /* placing multiple plots on the same set of axes */
 proc plot data=clin_2;
 	title "Scatter plot of SBP by DBP and SBP by HR";
 	plot (dbp hr) *sbp / overlay;
 run;
+
+/* as an sgplot */
+proc sgplot data=clin_2;
+	scatter y=sbp x=dbp / markerattrs=(symbol=circlenotfilled) markerfillattrs=(color=green);
+	scatter y=sbp x=hr / markerattrs=(symbol=circlefilled) markerfillattrs=(color=red);
+run;
+
 /* the plot is not very helpful, as it's not possible to tell which plot is DBP and which is HR */
 /* using different symbols for the two plots */
 proc plot data=clin_2;
